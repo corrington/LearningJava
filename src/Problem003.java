@@ -4,7 +4,6 @@ Problem 3 - Largest prime factor
 The prime factors of 13195 are 5, 7, 13 and 29.
 What is the largest prime factor of the number 600851475143 ?
  */
-import static java.lang.System.*;
 //import static org.apache.commons.math3.primes.Primes.*;
 // I was going to use the Apache Commons Math library, but was surprised to discover
 // it accepts ints instead of longs.  Hmm.  Odd.
@@ -55,5 +54,6 @@ public class Problem003 {
         //System.out.println("Largest prime factor is " + lpf);
 
     } // main()
+
 
 } // class Problem003
