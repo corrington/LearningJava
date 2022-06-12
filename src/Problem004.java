@@ -21,6 +21,11 @@ public class Problem004 {
         return (n == reverse(n));
     } // isPalindrome()
 
+    /*
+    Note: To stop checking numbers that give the same product,  we can assume a ≤ b.
+    We count down from 999 because we're likely to find the largest palindrome sooner, and
+    we can stop checking a*b when the product is smaller than our current largest palindrome candidate.
+     */
     public int largestPalindromeOfThreeDigitNumbers() {
         int largestPalindrome = 0;
         int a = 999;
