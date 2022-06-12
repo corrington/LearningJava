@@ -10,22 +10,24 @@ By considering the terms in the Fibonacci sequence whose values do not exceed fo
 find the sum of the even-valued terms.
  */
 public class Problem002 {
-    public static void main(String[] args) {
-        long fib1 = 1;
-        long fib2 = 2;
-        long fibSum = 1;
+
+    public long sumOfEvenFibonacciTerms(long max) {
+        long fib1 = 0;
+        long fib2 = 1;
+        long fibSum = 0;
         long sumOfEvenTerms = 0;
 
-        while (fibSum < 4_000_000) {
+        while (fibSum < max) {
             fibSum = fib1 + fib2;
+            System.out.println(fib1 + " + " + fib2 + " = " + fibSum);
+            System.out.println("sum of even terms is " + sumOfEvenTerms);
             if ((fib2 % 2) == 0) {
                 sumOfEvenTerms += fib2;
             } // if
             fib1 = fib2;
             fib2 = fibSum;
         } // while
+        return sumOfEvenTerms;
+    } // sumOfEvenFibonacciTerms()
 
-        System.out.println( "answer is " + sumOfEvenTerms);
-
-    } // main()
 } // class Problem002

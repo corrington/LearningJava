@@ -12,7 +12,7 @@ import static java.lang.System.*;
 public class Problem003 {
     /*
      */
-    static long getLargestPrimeFactor( long num) {
+    public long getLargestPrimeFactor( long num) {
 
         if (num <= 1) return -1;
 
@@ -51,8 +51,8 @@ public class Problem003 {
      */
     public static void main(String[] args) {
 
-        long lpf = getLargestPrimeFactor(600_851_475_143L);
-        System.out.println("Largest prime factor is " + lpf);
+        //long lpf = getLargestPrimeFactor(600_851_475_143L);
+        //System.out.println("Largest prime factor is " + lpf);
 
     } // main()
 
