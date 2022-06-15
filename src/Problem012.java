@@ -19,9 +19,45 @@ Let us list the factors of the first seven triangle numbers:
 We can see that 28 is the first triangle number to have over five divisors.
 What is the value of the first triangle number to have over five hundred divisors?
  */
-
 public class Problem012 {
-    public long getHighlyDivisibleTriangularNumber() {
-        return 0;
+
+    // notes: this approach is brute force. It won't scale well with larger numbers.
+    public long getHighlyDivisibleTriangularNumber(int maxDivisors) {
+
+        if (maxDivisors == 1) return 1;
+
+        int i = 1;
+        int triangleNumber = 1;
+        int numOfDivisors = 0;
+
+        while (numOfDivisors < maxDivisors) {
+            numOfDivisors = 0;
+
+            // generate the next triangle number
+            i++;
+            triangleNumber += i;
+
+            // We can stop dividing when the divisor exceeds the square root of the triangle number.
+            int upperLimit = (int)Math.sqrt(triangleNumber);
+
+            // determine the number of divisors
+            for (int divisor = 1; divisor <= upperLimit; divisor++) {
+                if (triangleNumber % divisor == 0) {
+                    // For every exact divisor up to the square root,
+                    // there is a corresponding divisor about the square root.
+                    numOfDivisors += 2;
+                } // if
+            } // for
+
+            // Correction for a perfect square
+            if (triangleNumber == upperLimit*upperLimit) {
+                numOfDivisors--;
+            }
+
+        } // while
+
+        return triangleNumber;
+
     } // getHighlyDivisibleTriangularNumber()
+
 } // class Problem012
