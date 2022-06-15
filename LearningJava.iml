@@ -37,5 +37,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="eclipse-collections-11.0.0-javadoc" level="project" />
   </component>
 </module>
