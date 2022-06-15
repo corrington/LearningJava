@@ -19,9 +19,9 @@ NOTE: Once the chain starts the terms are allowed to go above one million.
 After coding the brute-force method and reading the solution PDF provided by ProjectEuler.net, I decided to
 implement one of their optimizations: store and lookup previously calculated Collatz's values and terms.
 At first, I thought of using an int array, but int arrays cannot use longs for an index.
-Next, I thought of using a hash map. The standard Java HashMaps do not store primitives
+Next, I thought of using a hash map. The standard Java HashMap does not store primitives
 (e.g., longs and ints), only Objects. I didn't want the hassle or overhead of converting back and forth
-between primitive data types and Objects required by the standard HashMap.
+between primitive data types and Objects.
 So, I decided to use the LongIntHashMap offered by the Eclipse Collection.
 The version without a hash map completed in 0.37 seconds.
 The version using a hash map completed in 0.91 seconds.  Hahahahah.
@@ -42,7 +42,7 @@ public class Problem014b {
         long maxValue = 0;
         int maxTerms = 0;
 
-        for ( long currValue = 1; currValue < 1_000_000; currValue++) {
+        for ( long currValue = 1; currValue < 1_000_000  ; currValue++) {
 
             long n = currValue;
             int currTerms = 1;
@@ -76,11 +76,10 @@ public class Problem014b {
 
         } // for
 
-        System.out.println("number of hash map entries is " + lookupTable.size());
-        System.out.println("answer is " + maxValue + " with " + maxTerms + " terms.");
         System.out.println("elapse time: " + sw.elapsedTime() );
-
-
+        System.out.println("answer is " + maxValue + " with " + maxTerms + " terms.");
+        System.out.println("number of hash map entries is " + lookupTable.size());
+        //System.out.println("lookupTable is:" + lookupTable);
     } // main()
 
 } // class Problem014b
