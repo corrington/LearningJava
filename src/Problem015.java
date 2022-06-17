@@ -42,7 +42,7 @@ public class Problem015 {
 
         if (!lookupTable.containsKey(kp)) {
             lookupTable.put(kp, totalRoutes);
-            //System.out.println("adding [" + m + "," + n + "] = " + totalRoutes);  // DEBUG
+            //System.out.println("adding [" + m + "," + n + "] (" + kp.hashCode() + ") = " + totalRoutes);  // DEBUG
         }
         return totalRoutes;
 
@@ -136,9 +136,8 @@ class KeyPair {
     public int hashCode() {
         int min = Math.min(this.m, this.n);
         int max = Math.max(this.m, this.n);
-        String s = "" + min + "" + max;
-        int hash = Integer.parseInt(s);
-        return hash;
+        String s = "[" + min + "," + max + "]";
+        return  s.hashCode();
     } // hashCode()
 
     @Override
