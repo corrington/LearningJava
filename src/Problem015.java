@@ -50,7 +50,7 @@ public class Problem015 {
 
     public static void main(String[] args) {
 
-        int m = 15, n = 15;
+        int m = 18, n = 18;
 
         System.out.println("Version 1");
         var sw1 = new Stopwatch();
