@@ -32,32 +32,38 @@ Find the maximum total from top to bottom of the triangle below:
 import java.lang.Math;
 
 public class Problem018 {
+    /*
+     We're going to work the triangle from bottom to top, and left to right.
+     Using the sample triangle, we'll start with the second to last row (e.g., 2,4,6)
+     First, we add 2 to its left child (2+8), then add 2 to its right child (2+5).
+     Next, we stuff the larger sum (10) into 2's cell. Then we move right on to the next column.
+     After processing all the nodes on the row, we move up a row and repeat the process.
+     By the time we're done, the max total is in the [0][0] node.
+    */
 
     private static int getMax(final int[][] triangle, final int row, final int col) {
-        // calc sum of top-left-pair
+        // Add the value of the parent element to its left child
         int leftPair = triangle[row][col] + triangle[row+1][col];
-        // calc sum of top-right-pair
+        // Add the value of the parent element to its right child
         int rightPair = triangle[row][col] + triangle[row+1][col+1];
-        // and return the bigger one
+        // and return the bigger of the two sums
         return Math.max(leftPair, rightPair);
     } // getMax()
 
-    // we're going to work the triangle from bottom to top, and left to right.
-    // In the sample triangle, we'll start with the second to last row (e.g., 2,4,6)
-    // First, we sum the 2 with it's left child (2+8), and then the 2 with its right child (2+5)
-    // Next, we stuff the larger sum (10) into 2's position. Then we move on to the next column.
-    // After processing all the nodes on the row, we move up a row and repeat the process.
-    // By the time we're done, the max total is in the [0][0] node.
     private static int getMaxTotal(final int[][] triangle) {
 
-        final int maxRow = triangle.length;                     // get the number of rows
+        final int maxRow = triangle.length;          // get the number of rows
 
+        // starting at the second to last row in the triangle...
         for (int row = maxRow - 2; row >= 0; row--) {
+            // add each the value of each element to its left and right children
             for (int col = 0; col < triangle[row].length; col++) {
+                // take the bigger sum and stuff it into the current element,
                 triangle[row][col] = getMax(triangle, row, col);
             } // for col
         } // for row
 
+        // by the time we get here, the maximum total is at the top of the triangle
         return triangle[0][0];
 
     } // getMaxTotal()
