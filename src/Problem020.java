@@ -10,7 +10,6 @@ Find the sum of the digits in the number 100!
  */
 import java.math.BigInteger;
 
-
 public class Problem020 {
 
     // copied from Problem 16
