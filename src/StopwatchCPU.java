@@ -33,8 +33,8 @@ public class StopwatchCPU {
      * Initializes a new stopwatch.
      */
     public StopwatchCPU() {
-        threadTimer = ManagementFactory.getThreadMXBean();
-        start = threadTimer.getCurrentThreadCpuTime();
+        this.threadTimer = ManagementFactory.getThreadMXBean();
+        this.start = this.threadTimer.getCurrentThreadCpuTime();
     }
 
     /**
@@ -43,7 +43,18 @@ public class StopwatchCPU {
      * @return elapsed CPU time (in seconds) since the stopwatch was created
      */
     public double elapsedTime() {
-        long now = threadTimer.getCurrentThreadCpuTime();
-        return (now - start) / NANOSECONDS_PER_SECOND;
+        long now = this.threadTimer.getCurrentThreadCpuTime();
+        return (now - this.start) / NANOSECONDS_PER_SECOND;
     }
-}
+
+    /**
+     * Returns a String of the elapsed CPU time (in seconds) since the stopwatch was created.
+     * @return a String of the elapsed CPU time (in seconds) since the stopwatch was created
+     */
+    @Override
+    public String toString() {
+        return "" + elapsedTime();
+    } // toString()
+
+
+} // class StopwatchCPU

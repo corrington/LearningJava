@@ -121,10 +121,8 @@ class KeyPair {
 
         if ((this.m == kp.m) && (this.n == kp.n))   // [3,2] equals [3,2] AND [2,3] equals [2,3]
             return true;
-        if ((this.m == kp.n) && (this.n == kp.m))   // [3,2] equals [2,3] AND [2,3] equals [3,2]
-            return true;
-
-        return false;
+        // [3,2] equals [2,3] AND [2,3] equals [3,2]
+        return (this.m == kp.n) && (this.n == kp.m);
 
     } // equals()
 

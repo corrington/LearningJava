@@ -31,18 +31,26 @@ public class Stopwatch {
      * Initializes a new stopwatch.
      */
     public Stopwatch() {
-        start = System.currentTimeMillis();
+        this.start = System.currentTimeMillis();
     } // Stopwatch()
 
 
     /**
      * Returns the elapsed CPU time (in seconds) since the stopwatch was created.
-     *
      * @return elapsed CPU time (in seconds) since the stopwatch was created
      */
     public double elapsedTime() {
         long now = System.currentTimeMillis();
-        return (now - start) / 1000.0;
+        return (now - this.start) / 1000.0;
     } // elapsedTime()
+
+    /**
+     * Returns a String of the elapsed CPU time (in seconds) since the stopwatch was created.
+     * @return a String of the elapsed CPU time (in seconds) since the stopwatch was created
+     */
+    @Override
+    public String toString() {
+        return "" + elapsedTime();
+    } // toString()
 
 } // class Stopwatch
