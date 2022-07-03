@@ -1,4 +1,6 @@
 ### IntelliJ IDEA ###
+HELP.md
+target/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/

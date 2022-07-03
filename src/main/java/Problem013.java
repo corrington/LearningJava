@@ -189,4 +189,9 @@ public class Problem013 {
 
     } // addLargeSum()
 
+    // Don't know why I needed to add this method to shut up the compiler  =(
+    @Override
+    public String toString() {
+        return "";
+    } // toString() override
 } // class Problem013
