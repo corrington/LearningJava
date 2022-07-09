@@ -54,18 +54,18 @@ public class Problem044 {
 
     private long pentagonOf(final int n) {
         return pentagonLookup[n];
-    }
+    } // pentagonOf()
 
-    boolean isSumAndDiffPentagon(final int j, final int k) {
+    boolean areSumAndDiffPentagons(final int j, final int k) {
         return isPentagon(pentagonOf(j) + pentagonOf(k))
                 && isPentagon(pentagonOf(k) - pentagonOf(j));
-    } // isSumAndDiffPentagon()
+    } // areSumAndDiffPentagons()
 
     private long findDiffOfMagicalPair() {
         long minimisedDiff = Long.MAX_VALUE;
         for (int k = 2; k < maxPentagonLookupEntries; k++) {
             for (int j = 1; j < k; j++) {
-                if (isSumAndDiffPentagon(j,k)) {
+                if (areSumAndDiffPentagons(j,k)) {
                     long Pj = pentagonOf(j);
                     long Pk = pentagonOf(k);
                     long diff = Math.abs(Pk - Pj);
