@@ -7,6 +7,7 @@
  *  core or processor (instead of wall clock time).
  *
  ******************************************************************************/
+package com.corrington;
 
 import java.lang.management.ThreadMXBean;
 import java.lang.management.ManagementFactory;
