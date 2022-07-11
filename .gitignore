@@ -20,7 +20,7 @@ target/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-**/src/main/java/Scratch.java
+/src/main/java/Scratch.java
 
 ### Eclipse ###
 .apt_generated
