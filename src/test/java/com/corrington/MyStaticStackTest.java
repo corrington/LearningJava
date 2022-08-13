@@ -89,6 +89,7 @@ class MyStaticStackTest {
         String expected = "MyStaticStack{" +
                 "elements=" + "[27]" +
                 ", size=" + 1 +
+                ", capacity=" + 2 +
                 "}";
         assertEquals(expected, stack.toString());
     } // testToString()

@@ -61,6 +61,7 @@ public class MyStaticStack<E> {
         return "MyStaticStack{" +
                 "elements=" + this.elements +
                 ", size=" + this.elements.size() +
+                ", capacity=" + this.MAX_CAPACITY +
                 '}';
     } // toString()
 
