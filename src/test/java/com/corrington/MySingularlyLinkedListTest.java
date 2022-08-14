@@ -152,7 +152,7 @@ class MySingularlyLinkedListTest {
 
         list.addLast(6);
         assertEquals("[4,5,6]", list.toString());
-        
+
     } // testToString()
 
     @Test

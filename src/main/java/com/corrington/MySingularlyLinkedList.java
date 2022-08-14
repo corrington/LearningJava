@@ -1,25 +1,9 @@
 package com.corrington;
 
-class Node<T> {
-    T element;
-    Node<T> next;
 
-    public Node(T t) {
-        this.element = t;
-        this.next = null;
-    } // Node() constructor
-
-    @Override
-    public String toString() {
-        return "Node{" +
-                "data=" + this.element +
-                ", next=" + this.next +
-                '}';
-    } // toString()
-
-} // class Node
 
 public class MySingularlyLinkedList<E> {
+
 
     private Node<E> head;
     private Node<E> tail;
@@ -128,6 +112,7 @@ public class MySingularlyLinkedList<E> {
     } // peekAt()
 
 
+    // removes and returns the element at the specified index in this list.
     public E removeFrom(final int index) {
         if ((index < 0) || (index > this.size)) {
             throw new IllegalArgumentException("index is out of bounds");
@@ -171,13 +156,12 @@ public class MySingularlyLinkedList<E> {
         if (this.head == null) {
             // add first node to the list
             this.head = node;
-            this.tail = node;
         } else {
             // append to end of list
             this.tail.next = node;
-            // the new node is now the tail
-            this.tail = node;
         } // if
+
+        this.tail = node;
 
         this.size++;
 
@@ -218,6 +202,7 @@ public class MySingularlyLinkedList<E> {
         return this.head.element;
     } // peekFirst()
 
+
     // Retrieves, but does not remove, the last element in the list.
     // Returns: the last element in the list, or null if this list is empty
     public E peekLast() {
@@ -239,6 +224,7 @@ public class MySingularlyLinkedList<E> {
         return false;
     } // contains()
 
+
     public void clear() {
         Node<E> node = this.head;
         while (node != null) {          // Ensure there are no dangly references
@@ -256,6 +242,7 @@ public class MySingularlyLinkedList<E> {
         return this.size;
     } // size()
 
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -272,6 +259,7 @@ public class MySingularlyLinkedList<E> {
         return sb.toString();
     } // toString()
 
+
     // Compares the elements of the two lists.
     // The number, order, and value of elements must be the same
     // Not their locations in memory is ignored
@@ -285,7 +273,7 @@ public class MySingularlyLinkedList<E> {
         if (this.size != otherList.size) return false;
 
         Node<E> node = this.head;
-        Node<?> otherNode = otherList.head;
+        MySingularlyLinkedList.Node<?> otherNode = otherList.head;
 
         while (node != null) {
             if (!node.element.equals(otherNode.element)) return false;
@@ -304,5 +292,27 @@ public class MySingularlyLinkedList<E> {
         result = 31 * result + this.size;
         return result;
     } // hashCode()
+
+
+    private static class Node<T> {
+        T element;
+        Node<T> next;
+
+        public Node(T t) {
+            this.element = t;
+            this.next = null;
+        } // Node() constructor
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "data=" + this.element +
+                    ", next=" + this.next +
+                    '}';
+        } // toString()
+
+    } // class Node
+
+
 
 } // class MySingularlyLinkedList
