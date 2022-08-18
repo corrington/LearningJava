@@ -117,10 +117,6 @@ public class MyDoublyLinkedList<E> {
 
     // if 0 < i < index, insert
     public void addAt(E element, int index) {
-        if ((index < 0) || (index > this.size)) {
-            throw new IllegalArgumentException("index out of bounds");
-        }
-
         // add the new element to the front of the list
         if ((index == 0)){
             addFirst(element);
@@ -132,6 +128,10 @@ public class MyDoublyLinkedList<E> {
             addLast(element);
             return;
         } // if
+
+        if ((index < 0) || (index > this.size)) {
+            throw new IndexOutOfBoundsException("index " + index + " is out of bounds");
+        }
 
         // add the new element somewhere in the middle of the list
         Node<E> prevNode = this.head;
@@ -155,21 +155,21 @@ public class MyDoublyLinkedList<E> {
 
 
     public E peekAtFirst() {
-        if (this.head == null) return null;
+        if (isEmpty()) return null;
         return this.head.element;
     } // peekAtFirst()
 
 
     public E peekAtLast() {
-        if (this.tail == null) return null;
+        if (isEmpty()) return null;
         return this.tail.element;
     } // peekAtLast()
 
 
     public E peekAt(int index) {
-        if (this.head == null) return null;
+        if (isEmpty()) return null;
         if ((index < 0) || (index >= this.size)) {
-            throw new IllegalArgumentException("index out of bounds");
+            throw new IndexOutOfBoundsException("index " + index + " is out of bounds");
         }
         Node<E> node = this.head;
         for (int i = 0; i < index; i++) {
@@ -180,7 +180,8 @@ public class MyDoublyLinkedList<E> {
 
 
     public E removeFirst() {
-        if ((this.head == null) || (this.size == 0))return null;
+        if (isEmpty()) return null;
+
         E element = this.head.element;
 
         if (this.size == 1) {
@@ -197,7 +198,8 @@ public class MyDoublyLinkedList<E> {
 
 
     public E removeLast() {
-        if ((this.tail == null) || (this.size == 0))return null;
+        if (isEmpty()) return null;
+
         E element = this.tail.element;
 
         if (this.size == 1) {
@@ -206,7 +208,7 @@ public class MyDoublyLinkedList<E> {
             Node<E> prevNode = this.tail.prevNode;
             this.tail.clear();
             this.tail = prevNode;
-            this.head.nextNode = null;
+            this.tail.nextNode = null;
             this.size--;
         } // if
         return element;
@@ -214,14 +216,70 @@ public class MyDoublyLinkedList<E> {
 
 
     public E removeAt(int index) {
-        // TODO: Implement
-        return this.head.element;
+        if ((index < 0) || (index >= this.size)) {
+            throw new IndexOutOfBoundsException("index " + index + " is out of bounds");
+        } // if
+
+        // remove the first node?
+        if (index == 0) {
+            return removeFirst();
+        }
+
+        // remove the last node?
+        if (index == (this.size - 1)) {
+            return removeLast();
+        }
+
+        // walk thru the list until we find the node we're looking for
+        Node<E> node = this.head;
+        for (int i = 0; i < index; i++) {
+            node = node.nextNode;
+        } // for i
+
+        // save a copy of the element
+        E element = node.element;
+
+        if (this.size() == 1) {
+            clear();
+        } else {
+            Node<E> prevNode = node.prevNode;
+            Node<E> nextNode = node.nextNode;
+            prevNode.nextNode = nextNode;
+            nextNode.prevNode = prevNode;
+            node.clear();
+            this.size--;
+        } // if
+
+        return element;
     } // removeAt()
+
+
+    // Replaces the element at the specified position in this list with the specified element.
+    // Returns the element previously at the specified position
+    public E set(int index, E element) {
+        if (isEmpty()) return null;
+
+        if ((index < 0) || (index >= this.size)) {
+            throw new IndexOutOfBoundsException("index " + index + " is out of bounds");
+        }
+
+        Node<E> node = this.head;
+
+        for (int i = 0; i < index; i++) {
+            node = node.nextNode;
+        } // for i
+
+        E savedElement = node.element;
+        node.element = element;
+
+        return savedElement;
+
+    } // set()
 
 
     // Complexity: O(n)
     public void clear() {
-        if (this.head == null) return;
+        if (isEmpty()) return;
 
         Node<E> node = this.head;
         for (int i = 0; i < this.size; i++) {
@@ -246,7 +304,12 @@ public class MyDoublyLinkedList<E> {
     // returns true if a matching element was found; otherwise false
     // Complexity: O(n)
     public boolean contains(E element) {
-        // TODO: Implement
+        if (isEmpty()) return false;
+        Node<E> node = this.head;
+        for (int i = 0; i < this.size; i++) {
+            if (node.element.equals(element)) return true;
+            node = node.nextNode;
+        } // for i
         return false;
     } // contains()
 
@@ -254,14 +317,19 @@ public class MyDoublyLinkedList<E> {
     // returns the index of the matching element; otherwise returns -1 indicating element was not found
     // Complexity: O(n)
     public int indexOf(E element) {
-        // TODO: Implement
+        if (isEmpty()) return -1;
+        Node<E> node = this.head;
+        for (int i = 0; i < this.size; i++) {
+            if (node.element.equals(element)) return i;
+            node = node.nextNode;
+        } // for i
         return -1; // indicating element was not found
     } // indexOf()
 
 
     @Override
     public String toString() {
-        if (this.head == null) return "[]";
+        if (isEmpty()) return "[]";
 
         Node<E> node = this.head;
         StringBuilder sb = new StringBuilder("[");
@@ -279,5 +347,10 @@ public class MyDoublyLinkedList<E> {
         sb.append("]");
         return sb.toString();
     } // toString()
+
+    public boolean isEmpty() {
+        return (this.head == null);
+    } // isEmpty()
+
 
 } // class MyDoublyLinkedList
