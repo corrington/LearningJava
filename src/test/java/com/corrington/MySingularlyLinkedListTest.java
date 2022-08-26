@@ -10,11 +10,11 @@ class MySingularlyLinkedListTest {
     void addFirst() {
         var list = new MySingularlyLinkedList<Integer>();
         list.addFirst(34);
-        assertEquals( list.peekFirst(), 34);
+        assertEquals( 34, list.peekFirst());
         assertEquals(1,list.size());
 
         list.addFirst(27);
-        assertEquals( list.peekFirst(), 27);
+        assertEquals( 27, list.peekFirst());
         assertEquals(2,list.size());
 
         assertThrows(IllegalArgumentException.class, () -> list.addFirst(null));
@@ -25,11 +25,11 @@ class MySingularlyLinkedListTest {
     void addLast() {
         var list = new MySingularlyLinkedList<Integer>();
         list.addLast(34);
-        assertEquals( list.peekLast(), 34);
+        assertEquals( 34, list.peekLast());
         assertEquals(1,list.size());
 
         list.addLast(27);
-        assertEquals( list.peekLast(), 27);
+        assertEquals( 27, list.peekLast());
         assertEquals(2,list.size());
 
         assertThrows(IllegalArgumentException.class, () -> list.addLast(null));
@@ -308,5 +308,70 @@ class MySingularlyLinkedListTest {
         assertNotEquals(list1, list5);
 
     } // equals
+
+    @Test
+    void reverse() {
+
+        var list1 = new MySingularlyLinkedList<Integer>();
+        list1.addAll( new Integer[] {1,2,3,4,5} );
+        list1.reverse();
+        var list2 = new MySingularlyLinkedList<Integer>();
+        list2.addAll( new Integer[] {5,4,3,2,1} );
+        assertEquals(list1, list2);
+
+        list1.clear();
+        list1.addAll( new Integer[] {} );
+        list1.reverse();
+        list2.clear();
+        list2.addAll( new Integer[] {} );
+        assertEquals(list1, list2);
+
+        list1.clear();
+        list1.addAll( new Integer[] {1} );
+        list1.reverse();
+        list2.clear();
+        list2.addAll( new Integer[] {1} );
+        assertEquals(list1, list2);
+
+        list1.clear();
+        list1.addAll( new Integer[] {1,2} );
+        list1.reverse();
+        list2.clear();
+        list2.addAll( new Integer[] {2,1} );
+        assertEquals(list1, list2);
+
+    } // reverse()
+
+
+    @Test
+    void isEmpty() {
+        var list1 = new MySingularlyLinkedList<Integer>();
+        assertTrue(list1.isEmpty());
+        list1.addLast(1);
+        assertFalse(list1.isEmpty());
+    } // isEmpty()
+
+    @Test
+    void addAll() {
+        var list1 = new MySingularlyLinkedList<Integer>();
+        list1.addAll( new Integer[] {1,2,3,4,5} );
+
+        var list2 = new MySingularlyLinkedList<Integer>();
+        list2.addLast(1);
+        list2.addLast(2);
+        list2.addLast(3);
+        list2.addLast(4);
+        list2.addLast(5);
+        assertEquals(list1, list2);
+
+        list1.addAll( new Integer[] {6,7,8,9});
+        list2.addLast(6);
+        list2.addLast(7);
+        list2.addLast(8);
+        list2.addLast(9);
+        assertEquals(list1, list2);
+
+    } // addAll()
+
 
 } // MySingularlyLinkedListTest
