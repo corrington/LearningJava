@@ -95,6 +95,14 @@ public class MySingularlyLinkedList<E> {
     } // addAt()
 
 
+    // adds all of the elements in an array into the linked list
+    public void addAll(final E[] elements) {
+        for (var element : elements) {
+            addLast(element);
+        } // for element
+    } // addAll()
+
+
     // Retrieves, but does not remove, the first element in the list.
     // Returns: the first element in the list, or null if this list is empty
     public E peekFirst() {
@@ -213,7 +221,6 @@ public class MySingularlyLinkedList<E> {
     } // removeFrom()
 
 
-
     // Returns true if this list contains the specified element. Otherwise, false.
     public boolean contains(final E element) {
 
@@ -239,11 +246,35 @@ public class MySingularlyLinkedList<E> {
         this.size = 0;
     } // clear()
 
+
     public int size() {
         return this.size;
     } // size()
 
-    public boolean isEmpty() { return this.head == null;}
+
+    public boolean isEmpty() {
+        return this.head == null;
+    } // isEmpty()
+
+
+    // simply reverses the nodes in the list
+    public void reverse() {
+        if (isEmpty()) return;
+        if (this.size == 1) return;
+
+        Node<E> prevNode = null;
+        Node<E> currNode = this.head;
+
+        while (currNode != null) {
+            Node<E> nextNode = currNode.next;
+            currNode.next = prevNode;
+            prevNode = currNode;
+            currNode = nextNode;
+        } // while
+
+        this.head = prevNode;
+
+    } // reverse()
 
 
     @Override
