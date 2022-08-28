@@ -1,9 +1,6 @@
 package com.corrington;
 
-
-
 public class MySingularlyLinkedList<E> {
-
 
     private Node<E> head;
     private Node<E> tail;
@@ -262,6 +259,8 @@ public class MySingularlyLinkedList<E> {
         if (isEmpty()) return;
         if (this.size == 1) return;
 
+        Node<E> oldHeadNode = this.head;
+
         Node<E> prevNode = null;
         Node<E> currNode = this.head;
 
@@ -273,6 +272,7 @@ public class MySingularlyLinkedList<E> {
         } // while
 
         this.head = prevNode;
+        this.tail = oldHeadNode;
 
     } // reverse()
 

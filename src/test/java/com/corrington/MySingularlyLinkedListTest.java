@@ -35,6 +35,50 @@ class MySingularlyLinkedListTest {
 
     } // addLast()
 
+    @Test
+    void addAll() {
+        var list = new MySingularlyLinkedList<Integer>();
+
+        list.addAll(new Integer[] {});
+        assertEquals(0, list.size());
+
+        list.clear();
+        list.addAll(new Integer[] {35});
+        assertEquals(1, list.size());
+        assertEquals(35, list.peekFirst());
+
+        list.clear();
+        list.addAll(new Integer[] {30,41,52,63,74});
+        assertEquals(5, list.size());
+        assertEquals(30, list.peekFirst());
+        assertEquals(41, list.peekAt(1));
+        assertEquals(52, list.peekAt(2));
+        assertEquals(63, list.peekAt(3));
+        assertEquals(74, list.peekLast());
+    } // addAll()
+
+
+    @Test
+    void reverse() {
+        var list = new MySingularlyLinkedList<Integer>();
+
+        list.addAll(new Integer[] {30,41,52,63,74});
+        assertEquals(5, list.size());
+        assertEquals(30, list.peekFirst());
+        assertEquals(74, list.peekLast());
+
+        list.reverse();
+
+        assertEquals(5, list.size());
+
+        assertEquals(74, list.peekFirst());
+        assertEquals(63, list.peekAt(1));
+        assertEquals(52, list.peekAt(2));
+        assertEquals(41, list.peekAt(3));
+        assertEquals(30, list.peekLast());
+
+    } // reverse()
+
 
     @Test
     void contains() {
