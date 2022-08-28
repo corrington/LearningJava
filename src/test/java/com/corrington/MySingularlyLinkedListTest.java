@@ -303,9 +303,22 @@ class MySingularlyLinkedListTest {
         assertEquals(7, n);
         assertEquals(1, list.size());
 
+        list.clear();
+        list.addLast(3); //[0]
+        list.addLast(4); //[1]
+        list.addLast(5); //[2]
+        list.addLast(6); //[3]
+        list.addLast(7); //[4]
+        list.addLast(8); //[5]
+        list.addLast(9); //[6]
+        assertEquals(7, list.size());
+        n = list.removeFrom(4);
+        assertEquals(7, n);
+
         // checking the boundaries
         assertThrows(IllegalArgumentException.class, () -> list.removeFrom(-1));
-        assertThrows(IllegalArgumentException.class, () -> list.removeFrom(1));
+        int size = list.size();
+        assertThrows(IllegalArgumentException.class, () -> list.removeFrom(size));
 
     } // removeFrom()
 
@@ -321,17 +334,17 @@ class MySingularlyLinkedListTest {
 
         // insert a value into the middle of a populated list
         list.clear();
-        assertEquals(0, list.size());
-        list.addLast(4);
-        assertEquals(4, list.peekAt(0));
-        list.addLast(6);
-        assertEquals(6, list.peekAt(1));
-        assertEquals(2, list.size());
-        list.addAt(5, 1);
-        assertEquals(5, list.peekAt(1));
+        list.addLast(4);  //[0]
+        list.addLast(5);  //[1]
+        list.addLast(6);  //[2]
+        list.addLast(8);  //[3]
+        list.addLast(9);  //[4]
+        list.addAt(7, 3);
+
         assertEquals(6, list.peekAt(2));
-        assertEquals("[4,5,6]", list.toString());
-        assertEquals(3, list.size());
+        assertEquals(7, list.peekAt(3));
+        assertEquals(8, list.peekAt(4));
+        assertEquals(6, list.size());
 
         // add a value to the end of a populated list
         list.clear();
