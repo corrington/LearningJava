@@ -9,58 +9,60 @@ public class MySingularlyLinkedList<E> {
     private Node<E> tail;
     private int size;
 
+    private static final String INDEX_OUT_OF_BOUNDS = "index is out of bounds";
+
     public MySingularlyLinkedList() {
         this.head = null;
         this.tail = null;
         this.size = 0;
     } // MySingularlyLinkedList() constructor
 
+
     // add a new node to the start of the list
     public void addFirst(final E element) {
-        if (element == null) {
-            throw new IllegalArgumentException("element cannot be null");
-        }
 
-        var node = new Node<>(element);
+        var newNode = new Node<>(element);
+        this.size++;
 
-        if (this.head == null) {
-            // add the first node
-            this.head = node;
-            this.tail = node;
-        } else {
-            node.next = this.head;
-            this.head = node;
+        if (isEmpty()) {            // if the list is empty, we have to
+            this.tail = newNode;    // set the tail too.
         } // if
 
-        this.size++;
+        newNode.next = this.head;   // make the new node point to the old head
+        this.head = newNode;        // make the new node the head of the list
+
 
     } // addFirst()
 
-    // remove the first node from the front of the list, and return the element
-    public E removeFirst() {
-        if (this.head == null) return null;
-        E element = this.head.element;
-        if (this.size == 1) {
-            clear();
+
+    // Add a new element to the end of the list
+    public void addLast(final E element) {
+
+        var newNode = new Node<>(element);
+        this.size++;
+
+        if (isEmpty()) {
+            // add first node to the list
+            this.head = newNode;
         } else {
-            var next = this.head.next;
-            this.head.element = null;
-            this.head.next = null;
-            this.head = next;
-            this.size--;
+            // make the current last node point to the new last node
+            this.tail.next = newNode;
         } // if
-        return element;
-    } // removeFirst()
+
+        this.tail = newNode;
+
+    } // addLast()
+
 
     // Inserts the specified element at the specified position in this list.
     // Shifts the element currently at that position (if any) and any subsequent elements
     // to the right (adds one to their indices).
+    // You can add a new node to the start of an empty list: list.addAt(7, 0);
+    // And you can add a new node to the end of list: list.addAt(7, list.size());
+    // But not beyond that.
     public void addAt(final E element, final int index) {
-        if (element == null) {
-            throw new IllegalArgumentException("element cannot be null");
-        }
         if ((index < 0) || (index > this.size)) {
-            throw new IllegalArgumentException("index is out of bounds");
+            throw new IllegalArgumentException(INDEX_OUT_OF_BOUNDS);
         }
 
         if (index == 0) {
@@ -93,12 +95,34 @@ public class MySingularlyLinkedList<E> {
     } // addAt()
 
 
+    // Retrieves, but does not remove, the first element in the list.
+    // Returns: the first element in the list, or null if this list is empty
+    public E peekFirst() {
+        if (isEmpty()) return null;
+        return this.head.element;
+    } // peekFirst()
+
+
+    // Retrieves, but does not remove, the last element in the list.
+    // Returns: the last element in the list, or null if this list is empty
+    public E peekLast() {
+        if (isEmpty()) return null;
+        return this.tail.element;
+    } // peekLast()
+
+
+    // just like an array, you can peek at the elements that are within the boundaries list,
+    // but not outside (e.g., less than or greater than).
     public E peekAt(final int index) {
-        if ((index < 0) || (index > this.size)) return null;
-        if (this.head == null) return null;
+        if (isEmpty()) return null;     // just like the other peeks
+
+        // if we have a list, just like an array, the index must be within bounds.
+        if ((index < 0) || (index >= this.size)) {
+            throw new IllegalArgumentException(INDEX_OUT_OF_BOUNDS);
+        }
 
         if (index == 0) return this.head.element;
-        if (index == this.size) return this.tail.element;
+        if (index == (this.size - 1)) return this.tail.element;
 
         Node<E> node = this.head;
         int nodeIndex = 0;
@@ -112,60 +136,21 @@ public class MySingularlyLinkedList<E> {
     } // peekAt()
 
 
-    // removes and returns the element at the specified index in this list.
-    public E removeFrom(final int index) {
-        if ((index < 0) || (index > this.size)) {
-            throw new IllegalArgumentException("index is out of bounds");
-        }
+    // remove the first node from the front of the list, and return the element
+    public E removeFirst() {
         if (this.head == null) return null;
-
-        if (index == 0) return removeFirst();
-        if (index == this.size) return removeLast();
-
-        // walk thru the list to find the correct position
-        Node<E> prevNode = this.head;
-        Node<E> currNode = this.head.next;
-        int currNodeIndex = 1;
-        while (currNodeIndex != index) {
-            prevNode = currNode;
-            currNode = currNode.next;
-            currNodeIndex++;
-        } // while
-
-        // save the element
-        E element = currNode.element;
-        currNode.element = null;
-
-        // "bypass" the current node
-        prevNode.next = currNode.next;
-        this.size--;
-
-        return element;
-
-    } // removeFrom()
-
-
-    // Add a new element to the end of the list
-    public void addLast(final E element) {
-        if (element == null) {
-            throw new IllegalArgumentException("element cannot be null");
-        }
-
-        var node = new Node<>(element);
-
-        if (this.head == null) {
-            // add first node to the list
-            this.head = node;
+        E element = this.head.element;
+        if (this.size == 1) {
+            clear();
         } else {
-            // append to end of list
-            this.tail.next = node;
+            var next = this.head.next;
+            this.head.element = null;               // to ensure the element is garbage collected
+            this.head.next = null;
+            this.head = next;
+            this.size--;
         } // if
-
-        this.tail = node;
-
-        this.size++;
-
-    } // addLast()
+        return element;
+    } // removeFirst()
 
 
     // Removes and returns the last element from this list.
@@ -195,27 +180,43 @@ public class MySingularlyLinkedList<E> {
     } // removeLast()
 
 
-    // Retrieves, but does not remove, the first element in the list.
-    // Returns: the first element in the list, or null if this list is empty
-    public E peekFirst() {
+    // removes and returns the element at the specified index in this list.
+    public E removeFrom(final int index) {
+        if ((index < 0) || (index >= this.size)) {
+            throw new IllegalArgumentException(INDEX_OUT_OF_BOUNDS);
+        }
         if (this.head == null) return null;
-        return this.head.element;
-    } // peekFirst()
 
+        if (index == 0) return removeFirst();
+        if (index == (this.size - 1)) return removeLast();
 
-    // Retrieves, but does not remove, the last element in the list.
-    // Returns: the last element in the list, or null if this list is empty
-    public E peekLast() {
-        if (this.tail == null) return null;
-        return this.tail.element;
-    } // peekLast()
+        // walk thru the list to find the correct position
+        Node<E> prevNode = this.head;
+        Node<E> currNode = this.head.next;
+        int currNodeIndex = 1;
+        while (currNodeIndex != index) {
+            prevNode = currNode;
+            currNode = currNode.next;
+            currNodeIndex++;
+        } // while
+
+        // save the element
+        E element = currNode.element;
+        currNode.element = null;
+
+        // "bypass" the current node
+        prevNode.next = currNode.next;
+        this.size--;
+
+        return element;
+
+    } // removeFrom()
+
 
 
     // Returns true if this list contains the specified element. Otherwise, false.
     public boolean contains(final E element) {
-        if (element == null) {
-            throw new IllegalArgumentException("element cannot be null");
-        }
+
         var node = this.head;
         while (node != null) {
             if (node.element.equals(element)) return true;
@@ -226,9 +227,9 @@ public class MySingularlyLinkedList<E> {
 
 
     public void clear() {
-        Node<E> node = this.head;
-        while (node != null) {          // Ensure there are no dangly references
-            node.element = null;        // null the reference to the data so it can be garbage collected
+        Node<E> node = this.head;       // Walk through the list nulling the elements
+        while (node != null) {          // to ensure there are no dangly references.
+            node.element = null;        // null the reference to the data to ensure it can be garbage collected
             Node<E> next = node.next;
             node.next = null;           // null the reference to the next node so it can be garbage collected too
             node = next;
@@ -241,6 +242,8 @@ public class MySingularlyLinkedList<E> {
     public int size() {
         return this.size;
     } // size()
+
+    public boolean isEmpty() { return this.head == null;}
 
 
     @Override
@@ -261,8 +264,8 @@ public class MySingularlyLinkedList<E> {
 
 
     // Compares the elements of the two lists.
-    // The number, order, and value of elements must be the same
-    // Not their locations in memory is ignored
+    // The number, order, and value of elements must be the same.
+    // Their specific locations in memory are ignored
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -294,6 +297,9 @@ public class MySingularlyLinkedList<E> {
     } // hashCode()
 
 
+    /*
+     *
+     */
     private static class Node<T> {
         T element;
         Node<T> next;

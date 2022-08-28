@@ -9,32 +9,32 @@ class MySingularlyLinkedListTest {
     @Test
     void addFirst() {
         var list = new MySingularlyLinkedList<Integer>();
+        assertEquals(0, list.size());
+
         list.addFirst(34);
-        assertEquals( list.peekFirst(), 34);
-        assertEquals(1,list.size());
+        assertEquals( 34, list.peekFirst() );
+        assertEquals(1, list.size());
 
         list.addFirst(27);
-        assertEquals( list.peekFirst(), 27);
-        assertEquals(2,list.size());
-
-        assertThrows(IllegalArgumentException.class, () -> list.addFirst(null));
+        assertEquals( 27, list.peekFirst());
+        assertEquals(2, list.size());
 
     } // addFirst()
+
 
     @Test
     void addLast() {
         var list = new MySingularlyLinkedList<Integer>();
         list.addLast(34);
-        assertEquals( list.peekLast(), 34);
+        assertEquals( 34, list.peekLast() );
         assertEquals(1,list.size());
 
         list.addLast(27);
-        assertEquals( list.peekLast(), 27);
+        assertEquals( 27, list.peekLast() );
         assertEquals(2,list.size());
 
-        assertThrows(IllegalArgumentException.class, () -> list.addLast(null));
-
     } // addLast()
+
 
     @Test
     void contains() {
@@ -42,14 +42,13 @@ class MySingularlyLinkedListTest {
         list.addLast(27);
         list.addLast(41);
         list.addLast(69);
-
         assertEquals(3,list.size());
+
         assertTrue(list.contains(41));
         assertFalse(list.contains(73));
 
-        assertThrows(IllegalArgumentException.class, () -> list.contains(null));
-
     } // contains()
+
 
     @Test
     void clear() {
@@ -65,6 +64,7 @@ class MySingularlyLinkedListTest {
         assertNull(list.peekLast());
 
     } // clear()
+
 
     @Test
     void removeFirst() {
@@ -84,6 +84,7 @@ class MySingularlyLinkedListTest {
         assertEquals(1,list.size());
 
     } // removeFirst()
+
 
     @Test
     void removeLast() {
@@ -113,6 +114,7 @@ class MySingularlyLinkedListTest {
 
     } // removeLast()
 
+
     @Test
     void size() {
         var list = new MySingularlyLinkedList<Integer>();
@@ -139,6 +141,7 @@ class MySingularlyLinkedListTest {
 
     } // size()
 
+
     @Test
     void testToString() {
         var list = new MySingularlyLinkedList<Integer>();
@@ -155,9 +158,12 @@ class MySingularlyLinkedListTest {
 
     } // testToString()
 
+
     @Test
     void PeekFirst() {
         var list = new MySingularlyLinkedList<Integer>();
+        assertNull(list.peekFirst());
+
         list.addLast(4);
         list.addLast(5);
         list.addLast(6);
@@ -172,12 +178,14 @@ class MySingularlyLinkedListTest {
         list.removeFirst();
         assertNull(list.peekFirst());
 
-    } // testToString()
+    } // PeekFirst()
 
 
     @Test
     void PeekLast() {
         var list = new MySingularlyLinkedList<Integer>();
+        assertNull(list.peekLast());
+
         list.addLast(4);
         list.addLast(5);
         list.addLast(6);
@@ -191,22 +199,35 @@ class MySingularlyLinkedListTest {
 
         list.removeLast();
         assertNull(list.peekLast());
-    } // testToString()
+    } // PeekLast()
+
 
     @Test
     void peekAt() {
         var list = new MySingularlyLinkedList<Integer>();
-        list.addLast(4);
-        list.addLast(5);
-        list.addLast(6);
-        list.addLast(7);
-        assertEquals(4, list.peekAt(0));
-        assertEquals(5, list.peekAt(1));
-        assertEquals(6, list.peekAt(2));
-        assertEquals(7, list.peekAt(3));
+        assertTrue(list.isEmpty());
+        assertNull(list.peekAt(0));
 
-        assertNull(list.peekAt(-3));
-        assertNull(list.peekAt(8));
+        list.addLast(4);
+        assertFalse(list.isEmpty());
+        assertEquals(4, list.peekAt(0));
+
+        list.addLast(5);
+        assertEquals(5, list.peekAt(1));
+
+        list.addLast(6);
+        assertEquals(6, list.peekAt(list.size() - 1));
+
+        assertEquals(3, list.size());
+
+        // making sure there is no "off by one" bug
+        assertThrows(IllegalArgumentException.class, () -> list.peekAt(3));
+
+        // just like an array, you can use a negative index to access an element
+        assertThrows(IllegalArgumentException.class, () -> list.peekAt(-1));
+
+        // and you can't access an element that isn't there
+        assertThrows(IllegalArgumentException.class, () -> list.peekAt(4));
 
     } // peekAt()
 
@@ -214,60 +235,80 @@ class MySingularlyLinkedListTest {
     @Test
     void removeFrom() {
         var list = new MySingularlyLinkedList<Integer>();
+        // ensure you can't remove something from an empty list
+        assertThrows(IllegalArgumentException.class, () -> list.removeFrom(0));
+
         list.addLast(4);
         list.addLast(5);
         list.addLast(6);
         list.addLast(7);
-        list.addLast(8);
+        assertEquals(4, list.size());
 
-
-        var n = list.removeFrom(1);
-        assertEquals(5, n);
-        assertEquals(4,list.size());
-
-        n = list.removeFrom(1);
-        assertEquals(6, n);
+        // remove from the front of the list
+        var n = list.removeFrom(0);
+        assertEquals(4, n);
         assertEquals(3,list.size());
 
+        // remove from the middle of the list
         n = list.removeFrom(1);
+        assertEquals(6, n);
+        assertEquals(2, list.size());
+
+        // remove from the end of the list
+        n = list.removeFrom(list.size() - 1);
         assertEquals(7, n);
-        assertEquals(2,list.size());
+        assertEquals(1, list.size());
 
-        n = list.removeFrom(1);
-        assertEquals(8, n);
-        assertEquals(1,list.size());
-
-        assertThrows(IllegalArgumentException.class, () -> list.removeFrom(99));
-        assertThrows(IllegalArgumentException.class, () -> list.removeFrom(-99));
+        // checking the boundaries
+        assertThrows(IllegalArgumentException.class, () -> list.removeFrom(-1));
+        assertThrows(IllegalArgumentException.class, () -> list.removeFrom(1));
 
     } // removeFrom()
+
 
     @Test
     void addAt() {
         var list = new MySingularlyLinkedList<Integer>();
-        list.addLast(4);
-        list.addLast(5);
-        //list.addLast(6);
-        list.addLast(7);
-        list.addLast(8);
-        list.addAt(6, 2);
-        assertEquals("[4,5,6,7,8]", list.toString());
 
-        list.clear();
+        // add a value to the start of an empty list
+        assertTrue(list.isEmpty());
         list.addAt(4, 0);
-        assertEquals("[4]", list.toString());
+        assertEquals(4, list.peekAt(0));
 
+        // insert a value into the middle of a populated list
         list.clear();
+        assertEquals(0, list.size());
         list.addLast(4);
-        list.addLast(5);
-        list.addAt(6, 2);
+        assertEquals(4, list.peekAt(0));
+        list.addLast(6);
+        assertEquals(6, list.peekAt(1));
+        assertEquals(2, list.size());
+        list.addAt(5, 1);
+        assertEquals(5, list.peekAt(1));
+        assertEquals(6, list.peekAt(2));
         assertEquals("[4,5,6]", list.toString());
+        assertEquals(3, list.size());
 
-        assertThrows(IllegalArgumentException.class, () -> list.addAt(6, 99));
+        // add a value to the end of a populated list
+        list.clear();
+        assertEquals(0, list.size());
+        list.addLast(4);
+        assertEquals(4, list.peekAt(0));
+        assertEquals(1, list.size());
+        list.addAt(5, list.size());
+        assertEquals(5, list.peekAt(1));
+        assertEquals(2, list.size());
+
+
+        // ensure there is no "off by one" bug
+        assertThrows(IllegalArgumentException.class, () -> list.addAt(6, -1));
+        assertThrows(IllegalArgumentException.class, () -> list.addAt(6, 3));
+        // and confirm the outer boundaries
         assertThrows(IllegalArgumentException.class, () -> list.addAt(6, -99));
-        assertThrows(IllegalArgumentException.class, () -> list.addAt(null, 0));
+        assertThrows(IllegalArgumentException.class, () -> list.addAt(6, 99));
 
     } // addAt()
+
 
     @Test
     void equals() {
@@ -308,5 +349,17 @@ class MySingularlyLinkedListTest {
         assertNotEquals(list1, list5);
 
     } // equals
+
+
+    @Test
+    void isEmpty() {
+        var list = new MySingularlyLinkedList<Integer>();
+        assertEquals(0, list.size());
+        assertTrue(list.isEmpty());
+        list.addLast(7);
+        assertEquals(1, list.size());
+        assertFalse(list.isEmpty());
+    } // isEmpty()
+
 
 } // MySingularlyLinkedListTest
