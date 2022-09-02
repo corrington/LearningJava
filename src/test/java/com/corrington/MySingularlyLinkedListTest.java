@@ -397,14 +397,6 @@ class MySingularlyLinkedListTest {
         list4.addLast(5);
         assertNotEquals(list1, list4);
 
-        var list5 = new MySingularlyLinkedList<Character>();
-        list5.addLast('4');
-        list5.addLast('5');
-        list5.addLast('6');
-        list5.addLast('7');
-        list5.addLast('8');
-        assertNotEquals(list1, list5);
-
     } // equals
 
 
